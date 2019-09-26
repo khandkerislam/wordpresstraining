@@ -1,0 +1,59 @@
+# This is the Compose file for command-line services.
+# Anything that doesn't need to be run as part of the main `docker-compose up'
+# command should reside in here and be invoked by a helper script.
+version: "3.7"
+services:
+  wp:
+    image: wordpress:cli-2.2
+    volumes:
+      - ./services/wordpress:/var/www/html:cached
+  composer:
+    image: composer:1.7
+    volumes:
+      - ./services/wordpress:/app:cached
+  redis-cli:
+    image: redis:5-alpine
+    entrypoint:
+      - redis-cli
+      - -h
+      - redis
+  gesso:
+    build:
+      context: ./services/wordpress/public/wp-content/themes/gesso
+      dockerfile: $PWD/services/gesso/Dockerfile
+    command:
+      - grunt
+      - gessoWatch
+    init: true
+    volumes:
+      - ./services/wordpress/public/wp-content/themes/gesso/images:/app/images:cached
+      - ./services/wordpress/public/wp-content/themes/gesso/pattern-lab:/app/pattern-lab:cached
+      - ./services/wordpress/public/wp-content/themes/gesso/js:/app/js:cached
+      - type: volume
+        source: gesso-public
+        target: /app/pattern-lab/public
+      - type: volume
+        source: gesso-css
+        target: /app/css
+  pattern-lab:
+    image: php:7.3-cli-alpine
+    command:
+      - php
+      - -dmemory_limit=-1
+      - core/console
+      - --watch
+      - --no-procs
+    init: true
+    restart: always
+    volumes:
+      - ./services/wordpress/public/wp-content/themes/gesso/pattern-lab:/app:cached
+      - type: volume
+        source: gesso-public
+        target: /app/public
+    working_dir: /app
+  theme-composer:
+    image: composer:1.7
+    volumes:
+      - ././services/wordpress/public/wp-content/themes/gesso/pattern-lab:/app:cached
+volumes:
+  {}

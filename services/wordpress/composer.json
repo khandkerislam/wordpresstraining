@@ -1,0 +1,42 @@
+{
+  "name": "khanProj",
+  "type": "project",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    }
+  ],
+  "require": {
+    "wecodemore/wpstarter": "~2.0"
+  },
+  "config": {
+    "vendor-dir": "public/wp-content/vendor"
+  },
+  "scripts": {
+    "post-install-cmd": "WCM\\WPStarter\\Setup::run",
+    "post-update-cmd": "WCM\\WPStarter\\Setup::run"
+  },
+  "extra": {
+    "wordpress-install-dir": "public/wp",
+    "wordpress-content-dir": "public/wp-content",
+    "wpstarter": {
+      "prevent-overwrite": [
+        ".gitignore",
+        "public/wp-config.php",
+        "public/index.php"
+      ]
+    },
+    "installer-paths": {
+      "public/wp-content/plugins/{$name}": [
+        "type:wordpress-plugin"
+      ],
+      "public/wp-content/mu-plugins/{$name}": [
+        "type:wordpress-muplugin"
+      ],
+      "public/wp-content/themes/{$name}": [
+        "type:wordpress-theme"
+      ]
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "generator-web-starter": {
+    "promptValues": {
+      "name": "khanProj",
+      "platform": "Docker",
+      "dockerCms": "WordPress",
+      "dockerSearch": "None",
+      "dockerCache": "Redis",
+      "documentRoot": "public",
+      "wpStarter": true,
+      "wpCfm": false,
+      "useGesso": true,
+      "useCapistrano": false,
+      "redisTag": "5",
+      "gessoThemeName": "gesso"
+    },
+    "projectName": "khanProj"
+  }
+}

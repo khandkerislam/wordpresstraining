@@ -1,0 +1,5 @@
+### WP Starter
+.env
+public/wp-config.php
+public/wp/
+public/wp-content/
